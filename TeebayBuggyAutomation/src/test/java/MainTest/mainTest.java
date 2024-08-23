@@ -1,6 +1,7 @@
 package MainTest;
 
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -47,9 +48,10 @@ public class mainTest {
 		     driver= new ChromeDriver();
 		//System.setProperty("driver.firfox.mariontee", "C:\\eclipse");
 		//  driver= new FirefoxDriver();
-		  driver.get("http://localhost:3001/teebay-buggy");
+		  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); 
+		  driver.get("http://localhost:3000/teebay-buggy");
 		  driver.manage().window().maximize();
-		  Thread.sleep(2000);
+		  //Thread.sleep(2000);
 		  
 		  
 	}
@@ -58,19 +60,20 @@ public class mainTest {
 	public void LogInTest() throws InterruptedException {
 		ExtentTest test=extent.createTest("Log In","Teebay Buggy").assignAuthor("Nasif").assignDevice("Windows 11: Chrome Browser");
         
-		Thread.sleep(2000);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); 
+		//Thread.sleep(2000);
 		pomClass pm= new pomClass(driver);
 		
 		//giving email
 		pm.setEmail("testuser@teebay.com");
 		test.info("Email:testuser@teebay.com");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		pm.setPassword("123456");
 		test.info("Password:123456");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.clickLogInBtn();
 		
 		String expectedTitle="React App";
@@ -93,19 +96,20 @@ public class mainTest {
 		
 ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor("Nasif").assignDevice("Windows 11: Chrome Browser");
         
-		Thread.sleep(2000);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); 
+		//Thread.sleep(2000);
 		pomClass pm= new pomClass(driver);
 		
 		//giving email
 		pm.setEmail("testuser@teebay.com");
 		test.info("Email:testuser@teebay.com");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		pm.setPassword("123456");
 		test.info("Password:123456");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.clickLogInBtn();
 		
 		String expectedTitle="React App";
@@ -117,11 +121,11 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 			test.fail("Log In Failed" ,MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		
 
-		Thread.sleep(3000);
+		//Thread.sleep(3000);
 		pm.ClickBrowseProducts();
 		test.info("visiting Browse Products page");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		
 		String dview = driver.findElement(By.xpath("//*[@id=\"root\"]/div[2]/div/div[2]/div[4]/div/div[2]/div[2]")).getText();
 		String numberPart = dview.split(" ")[0]; // Extract "23"
@@ -130,7 +134,7 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 		test.info("First view Count: "+viewCount);
 
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		//click products
 		pm.ClickBlender();
 		test.info("clicked product");
@@ -138,7 +142,7 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 		
     
 		String view=driver.findElement(By.xpath("//*[@id=\"root\"]/div[2]/div/div[2]/div[2]")).getText();
-		test.info(dview);
+		test.info(view);
 		
 		 
         Thread.sleep(2000);
@@ -173,8 +177,8 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 	public void DeleteProductsTest() throws InterruptedException {
 		
 		ExtentTest test=extent.createTest("Delete Products","Teebay Buggy").assignAuthor("Nasif").assignDevice("Windows 11: Chrome Browser");
-        
-		Thread.sleep(2000);
+		  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); 
+		//Thread.sleep(2000);
 		pomClass pm= new pomClass(driver);
 		
 		//giving email
@@ -198,7 +202,7 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 			test.fail("Log In Failed" ,MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		
 
-		Thread.sleep(3000);
+		//Thread.sleep(3000);
 		
 		 if(pm.FirstProductDelete.isDisplayed()&& pm.FirstProductDelete.isEnabled()) {
 		 pm.clcikFirstProductDelete();
@@ -222,21 +226,23 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 		 pm.clickSecondProductDelete();
 		 test.info("Clcik on delete button for Second product");
 		 
+		 test.fail("failed to delete",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
+		 
 		 }
 		 else {
 		 test.fail("Test failed"+"unable to click, internal surver error occured",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		 }
-		 Thread.sleep(3000);
+		 //Thread.sleep(3000);
 		 
-		 if(pm.confirmSecondProductDelete.isDisplayed() && pm.SecondProductDelete.isEnabled()) {
+		/* if(pm.confirmSecondProductDelete.isDisplayed() && pm.SecondProductDelete.isEnabled()) {
 		 pm.confirmSecondProductDelete();
-		 test.info("Clcik on confirm delete  for first product");
+		 test.info("Clcik on confirm delete for second product");
 		 
 		 test.pass("Deleted");
 		 }
 		 else{
 			 test.fail("failed to delete",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
-		 }
+		 } */
 			 
 
 		
@@ -244,21 +250,21 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 	@Test(priority=4)
 	public void AddProductsTest() throws InterruptedException {
 		
-		ExtentTest test=extent.createTest("Delete Products","Teebay Buggy").assignAuthor("Nasif").assignDevice("Windows 11: Chrome Browser");
-        
-		Thread.sleep(2000);
+		ExtentTest test=extent.createTest("Add Products","Teebay Buggy").assignAuthor("Nasif").assignDevice("Windows 11: Chrome Browser");
+		  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); 
+		//Thread.sleep(2000);
 		pomClass pm= new pomClass(driver);
 		
 		//giving email
 		pm.setEmail("testuser@teebay.com");
 		test.info("Email:testuser@teebay.com");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		pm.setPassword("123456");
 		test.info("Password:123456");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.clickLogInBtn();
 		
 		String expectedTitle="React App";
@@ -270,7 +276,7 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 			test.fail("Log In Failed" ,MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		
 
-		Thread.sleep(3000);
+		//Thread.sleep(3000);
 		
 		if(pm.AddProduct.isEnabled() && pm.AddProduct.isDisplayed()) {
 			pm.ClickAddProduct();
@@ -280,47 +286,47 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 			test.fail("Button is not clickable");
 		}
 		
-		Thread.sleep(3000);
+		//Thread.sleep(3000);
 		pm.GetTitleValue("Test Data 1");
 		test.info("Title Given for products 1");
 		
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickCategories();
 		test.info("Selected Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickSelectCategories();
 		test.info("Selected dropdown Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickClickUn();
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setDescription("Test Data 1");
 		test.info("Description Given for products 1");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setPrice("40");
 		test.info("Price given: $40");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentPrice("20");
 		test.info("Price Rent given: $20");
 		
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentDuration();
 		test.info("click RentDuration");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setHrRentDuration();
 		test.info("click RentDuration Hourly");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.clickAddProductbtn();
 		test.info("click Add Product Button");
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		if(driver.getTitle().contains("React App")) {
 			test.pass("product created",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
@@ -330,7 +336,9 @@ ExtentTest test=extent.createTest("Browse Products","Teebay Buggy").assignAuthor
 		 }
 		
 		Thread.sleep(3000);
-Thread.sleep(3000);
+		
+		driver.navigate().refresh();
+        Thread.sleep(3000);
 		
 		if(pm.AddProduct.isEnabled() && pm.AddProduct.isDisplayed()) {
 			pm.ClickAddProduct();
@@ -340,47 +348,47 @@ Thread.sleep(3000);
 			test.fail("Button is not clickable");
 		}
 		
-		Thread.sleep(3000);
+		//Thread.sleep(3000);
 		pm.GetTitleValue("Test Data 2");
 		test.info("Title Given for products 2");
 		
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickCategories();
 		test.info("Selected Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickSelectCategories();
 		test.info("Selected dropdown Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickClickUn();
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setDescription("Test Data 2");
 		test.info("Description Given for products 2");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setPrice("40");
 		test.info("Price given: $40");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentPrice("20");
 		test.info("Price Rent given: $20");
 		
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentDuration();
 		test.info("click RentDuration");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setHrRentDuration();
 		test.info("click RentDuration Hourly");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.clickAddProductbtn();
 		test.info("click Add Product Button");
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 		
 		if(driver.getTitle().contains("React App")) {
 			test.pass("product created",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
@@ -388,7 +396,10 @@ Thread.sleep(3000);
 		 else{
 			 test.fail("failed to delete",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		 }
-Thread.sleep(3000);
+		Thread.sleep(3000);
+		
+		driver.navigate().refresh();
+        Thread.sleep(3000);
 		
 		if(pm.AddProduct.isEnabled() && pm.AddProduct.isDisplayed()) {
 			pm.ClickAddProduct();
@@ -398,47 +409,47 @@ Thread.sleep(3000);
 			test.fail("Button is not clickable");
 		}
 		
-		Thread.sleep(3000);
+	//	Thread.sleep(3000);
 		pm.GetTitleValue("Test Data 3");
 		test.info("Title Given for products 3");
 		
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickCategories();
 		test.info("Selected Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickSelectCategories();
 		test.info("Selected dropdown Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickClickUn();
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setDescription("Test Data 3");
 		test.info("Description Given for products 3");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setPrice("400");
 		test.info("Price given: $400");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentPrice("20");
 		test.info("Price Rent given: $20");
 		
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentDuration();
 		test.info("click RentDuration");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setHrRentDuration();
 		test.info("click RentDuration Hourly");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.clickAddProductbtn();
 		test.info("click Add Product Button");
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		if(driver.getTitle().contains("React App")) {
 			test.pass("product created",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
@@ -447,7 +458,10 @@ Thread.sleep(3000);
 			 test.fail("failed to delete",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		 }
 		
-Thread.sleep(3000);
+		Thread.sleep(3000);
+		
+		driver.navigate().refresh();
+        Thread.sleep(3000);
 		
 		if(pm.AddProduct.isEnabled() && pm.AddProduct.isDisplayed()) {
 			pm.ClickAddProduct();
@@ -457,47 +471,47 @@ Thread.sleep(3000);
 			test.fail("Button is not clickable");
 		}
 		
-		Thread.sleep(3000);
+	//	Thread.sleep(3000);
 		pm.GetTitleValue("Test Data 4");
 		test.info("Title Given for products 4");
 		
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickCategories();
 		test.info("Selected Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickSelectCategories();
 		test.info("Selected dropdown Catagories");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		pm.clickClickUn();
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setDescription("Test Data 4");
 		test.info("Description Given for products 4");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setPrice("200");
 		test.info("Price given: $200");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentPrice("20");
 		test.info("Price Rent given: $20");
 		
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setRentDuration();
 		test.info("click RentDuration");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setHrRentDuration();
 		test.info("click RentDuration Hourly");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.clickAddProductbtn();
 		test.info("click Add Product Button");
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		if(driver.getTitle().contains("React App")) {
 			test.pass("product created",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
@@ -506,7 +520,10 @@ Thread.sleep(3000);
 			 test.fail("failed to delete",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		 }
 		
-Thread.sleep(3000);
+		Thread.sleep(3000);
+		
+		driver.navigate().refresh();
+        Thread.sleep(3000);
 		
 		if(pm.AddProduct.isEnabled() && pm.AddProduct.isDisplayed()) {
 			pm.ClickAddProduct();
@@ -516,48 +533,48 @@ Thread.sleep(3000);
 			test.fail("Button is not clickable");
 		}
 		
-		Thread.sleep(3000);
+	//	Thread.sleep(3000);
 		pm.GetTitleValue("Test Data 5");
 		test.info("Title Given for products 5");
 		
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.clickCategories();
 		test.info("Selected Catagories");
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.clickSelectCategories();
 		test.info("Selected dropdown Catagories");
 		
-		Thread.sleep(2000);
+//		Thread.sleep(2000);
 		pm.clickClickUn();
 		
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 		pm.setDescription("Test Data 5");
 		test.info("Description Given for products 5");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		pm.setPrice("44");
 		test.info("Price given: $44");
 		
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 		pm.setRentPrice("20");
 		test.info("Price Rent given: $20");
 		
 		
-		Thread.sleep(1000);
+//		Thread.sleep(1000);
 		pm.setRentDuration();
 		test.info("click RentDuration");
 		
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 		pm.setHrRentDuration();
 		test.info("click RentDuration Hourly");
 		
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 		pm.clickAddProductbtn();
 		test.info("click Add Product Button");
 		 test.fail("failed to Add Product",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 		
 		
 	} 
@@ -566,20 +583,20 @@ Thread.sleep(3000);
 	public void SearchProductsTest() throws InterruptedException {
 		
 		ExtentTest test=extent.createTest("Search Products","Teebay Buggy").assignAuthor("Nasif").assignDevice("Windows 11: Chrome Browser");
-        
-		Thread.sleep(2000);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));   
+		//Thread.sleep(2000);
 		pomClass pm= new pomClass(driver);
 		
 		//giving email
 		pm.setEmail("testuser@teebay.com");
 		test.info("Email:testuser@teebay.com");
 		
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 		
 		pm.setPassword("123456");
 		test.info("Password:123456");
 		
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 		pm.clickLogInBtn();
 		
 		String expectedTitle="React App";
@@ -591,37 +608,37 @@ Thread.sleep(3000);
 			test.fail("Log In Failed" ,MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		
 
-		Thread.sleep(3000);
+	//	Thread.sleep(3000);
 		if(pm.BrowseProducts.isDisplayed() && pm.BrowseProducts.isEnabled()) {
 			pm.ClickBrowseProducts();
 			test.info("Clicked Browse Products Page");
 		}
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.setSearchTitle("Funshine bear");
 		test.info("Tile:Funshine bear ");
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.clickSearchCategory();
 		
-		Thread.sleep(2000);
+//		Thread.sleep(2000);
 		pm.cickSearchCategoryToys();
 		test.info("Search Category:Toy ");
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.clickBuy();
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.setPriceMin("10");
 		
 		test.info("Min price: $10");
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.setPriceMax("100");
 		
 		test.info("Min price: $100");
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.clickFilter();
 		
 		String Exp_Title="Funshine bear";
@@ -634,14 +651,14 @@ Thread.sleep(3000);
 			test.fail("Title filter are not Funtional",MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64()).build());
 		}
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.clickClear();
 		//Category and Buy Filters
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.clickSearchCategory();
 		
-		Thread.sleep(2000);
+	//	Thread.sleep(2000);
 		pm.cickSearchCategoryToys();
 		test.info("Search Category:Toy ");
 		
